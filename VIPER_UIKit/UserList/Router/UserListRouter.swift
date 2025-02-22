@@ -14,6 +14,7 @@ protocol UserListRouterProtocol: AnyObject {
 
 class UserListRouter: UserListRouterProtocol {
     weak var viewController: UIViewController?
+    weak var delegate: UserDetailDelegate?
 
     static func assembleModule() -> UIViewController {
         let view = UserListViewController()
@@ -24,12 +25,13 @@ class UserListRouter: UserListRouterProtocol {
         view.presenter = presenter
         interactor.presenter = presenter
         router.viewController = view
+        router.delegate = presenter
 
         return view
     }
 
     func navigateToUserDetail(with user: User) {
-        let detailViewController = UserDetailViewController(user: user)
+        let detailViewController = UserDetailRouter.assembleModule(with: user, delegate: delegate)
         viewController?.navigationController?.pushViewController(detailViewController, animated: true)
     }
 }

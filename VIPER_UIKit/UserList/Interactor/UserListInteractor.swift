@@ -9,7 +9,9 @@ import Foundation
 
 protocol UserListInteractorInputProtocol: AnyObject {
     var presenter: UserListInteractorOutputProtocol? { get set }
+    var users: [User] { get set }
     func fetchUsers()
+    func updateUser(_ user: User)
 }
 
 protocol UserListInteractorOutputProtocol: AnyObject {
@@ -19,14 +21,22 @@ protocol UserListInteractorOutputProtocol: AnyObject {
 
 class UserListInteractor: UserListInteractorInputProtocol {
     weak var presenter: UserListInteractorOutputProtocol?
+    var users: [User] = []
 
     func fetchUsers() {
         // Simulate network call
         DispatchQueue.global().async {
-            let users = [User(id: 1, name: "Alice"), User(id: 2, name: "Bob")]
+            self.users = [User(id: 1, name: "Alice"), User(id: 2, name: "Bob")]
             DispatchQueue.main.async {
-                self.presenter?.didFetchUsers(users)
+                self.presenter?.didFetchUsers(self.users)
             }
+        }
+    }
+
+    func updateUser(_ user: User) {
+        if let index = users.firstIndex(of: user) {
+            users[index] = user
+            presenter?.didFetchUsers(users)
         }
     }
 }

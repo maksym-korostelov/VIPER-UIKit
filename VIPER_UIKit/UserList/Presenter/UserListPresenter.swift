@@ -10,6 +10,7 @@ import Foundation
 protocol UserListPresenterProtocol: AnyObject {
     func viewDidLoad()
     func didSelectUser(_ user: User)
+    func didUpdateUser(_ user: User)
 }
 
 class UserListPresenter: UserListPresenterProtocol {
@@ -39,5 +40,12 @@ extension UserListPresenter: UserListInteractorOutputProtocol {
 
     func didFailToFetchUsers(with error: Error) {
         view?.showError(error.localizedDescription)
+    }
+}
+
+
+extension UserListPresenter: UserDetailDelegate {
+    func didUpdateUser(_ user: User) {
+        interactor.updateUser(user)
     }
 }

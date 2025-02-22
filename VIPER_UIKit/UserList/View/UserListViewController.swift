@@ -83,3 +83,9 @@ extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
+
+extension UserListViewController: UserDetailDelegate {
+    func didUpdateUser(_ user: User) {
+        presenter.didUpdateUser(user)
+    }
+}
