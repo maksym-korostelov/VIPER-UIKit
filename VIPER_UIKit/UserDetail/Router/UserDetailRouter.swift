@@ -30,6 +30,7 @@ class UserDetailRouter: UserDetailRouterProtocol {
         let router = UserDetailRouter()
         let presenter = UserDetailPresenter(view: view, interactor: interactor, router: router, delegate: delegate)
 
+        interactor.presenter = presenter
         view.presenter = presenter
         router.viewController = view
 
